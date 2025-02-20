@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Productos - L Farma</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesbuscarproductos.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Buscar Producto</h2>
+
+        <form action="/productos/buscar" method="post" class="formulario-producto">
+            <div class="form-group">
+                <label for="codigoProducto">Código del Producto:</label>
+                <input type="text" class="form-control" id="codigoProducto" name="codigoProducto" placeholder="Ingrese el código del producto" required>
+            </div>
+            <button type="submit" class="btn btn-info btn-block">Buscar Producto</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

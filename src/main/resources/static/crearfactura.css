@@ -1,0 +1,96 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h2 {
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+}
+
+.container {
+    max-width: 700px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: transparent;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
+.form-label {
+    font-weight: bold;
+    color: #fff;
+}
+
+.form-select, 
+.form-control {
+    background-color: rgba(255, 255, 255, 0.2); 
+    color: #fff; 
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.form-select:focus, 
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.form-select::placeholder, 
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+}
+
+
+.form-select option {
+    background-color: rgba(0, 0, 0, 0.8); 
+    color: #fff; 
+}
+
+
+.form-select option:hover {
+    background-color: #6a11cb; 
+    color: #fff;
+}
+
+.input-group .btn-outline-secondary {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.input-group .btn-outline-secondary:hover {
+    background-color: #6a11cb;
+    color: #fff;
+}
+
+button[type="submit"] {
+    background-color: #2575fc;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #6a11cb;
+    transform: scale(1.05);
+}
+
+#productos-container .input-group {
+    margin-bottom: 15px;
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestión de Clientes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/clientes.css">
+</head>
+<body>
+<h1>Lista de Clientes</h1>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarClienteModal">
+    Agregar Cliente
+</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Dirección Electrónica</th>
+            <th>Teléfono</th>
+            <th>Identificación</th>
+            <th>Dirección Física</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="cliente : ${clientes}">
+            <td th:text="${cliente.codigo}"></td>
+            <td th:text="${cliente.nombre}"></td>
+            <td th:text="${cliente.direccion}"></td>
+            <td th:text="${cliente.telefono}"></td>
+            <td th:text="${cliente.identificacion}"></td>
+            <td th:text="${cliente.direccionFisica}"></td>
+            <td>
+                
+                <button type="button" class="btn btn-warning" data-toggle="modal" 
+                        data-target="#editarClienteModal" 
+                        th:attr="data-codigo=${cliente.codigo}, data-nombre=${cliente.nombre}, 
+                                 data-direccion=${cliente.direccion}, data-telefono=${cliente.telefono}, 
+                                 data-identificacion=${cliente.identificacion}, 
+                                 data-direccionFisica=${cliente.direccionFisica}">
+                    Editar
+                </button>
+                
+                
+                <button type="button" class="btn btn-danger" data-toggle="modal" 
+                        data-target="#eliminarClienteModal" 
+                        th:attr="data-codigo=${cliente.codigo}">
+                    Eliminar
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div class="modal fade" id="agregarClienteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/clientes/agregar}" method="post">
+                    <div class="form-group">
+                        <label>Código</label>
+                        <input type="text" name="codigo" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" name="direccion" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" name="telefono" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Identificación</label>
+                        <input type="text" name="identificacion" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección Física</label>
+                        <input type="text" name="direccionFisica" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editarClienteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/clientes/actualizar}" method="post">
+                    <input type="hidden" id="editCodigo" name="codigo">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" id="editNombre" name="nombre" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" id="editDireccion" name="direccion" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" id="editTelefono" name="telefono" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Identificación</label>
+                        <input type="text" id="editIdentificacion" name="identificacion" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección Física</label>
+                        <input type="text" id="editDireccionFisica" name="direccionFisica" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="eliminarClienteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Eliminar Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar este cliente?</p>
+                <form th:action="@{clientes/eliminar}" method="post">
+                    <input type="hidden" id="deleteCodigo" name="codigo">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    
+    $('#editarClienteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        $('#editCodigo').val(button.data('codigo'));
+        $('#editNombre').val(button.data('nombre'));
+        $('#editDireccion').val(button.data('direccion'));
+        $('#editTelefono').val(button.data('telefono'));
+        $('#editIdentificacion').val(button.data('identificacion'));
+        $('#editDireccionFisica').val(button.data('direccionFisica'));
+    });
+
+    
+    $('#eliminarClienteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        $('#deleteCodigo').val(button.data('codigo'));
+    });
+</script>
+</body>
+</html>
