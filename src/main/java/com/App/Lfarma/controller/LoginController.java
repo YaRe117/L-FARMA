@@ -1,53 +1,50 @@
 package com.App.Lfarma.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
 import com.App.Lfarma.entity.Usuario;
-import com.App.Lfarma.service.UsuarioService;
+import com.App.Lfarma.repository.UsuarioRepository;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpSession;
+import java.util.Map;
 
-@Controller
-@SessionAttributes("username")
+@RestController
+@RequestMapping("/auth")
 public class LoginController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final AuthenticationManager authenticationManager;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("/login")
-    public String loginForm() {
-        return "login";
+    public LoginController(AuthenticationManager authenticationManager, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.authenticationManager = authenticationManager;
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/login")
-    public String login(
-            @RequestParam String username,
-            @RequestParam String password,
-            Model model,
-            HttpSession session) {
-
-        Usuario usuario = usuarioService.autenticar(username, password);
-
-        if (usuario != null) {
-            session.setAttribute("username", usuario.getUsername());
-            session.setAttribute("rol", usuario.getRol());
-
-            if ("admin".equals(usuario.getRol())) {
-                return "redirect:/dashboard_admin";
-            } else {
-                return "redirect:/dashboard_empleado";
-            }
-        } else {
-            model.addAttribute("error", "Usuario o contraseña incorrectos");
-            return "login";
+    public String login(@RequestBody Map<String, String> loginRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.get("username"), loginRequest.get("password"))
+            );
+            return "Login exitoso para: " + authentication.getName();
+        } catch (AuthenticationException e) {
+            return "Error: Credenciales inválidas";
         }
     }
+
+    @PostMapping("/register")
+public String register(@RequestBody Usuario usuario) {
+    // Encriptar la contraseña antes de guardar el usuario
+    usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+    
+    usuarioRepository.save(usuario);
+    return "Usuario registrado correctamente";
+}
 
     @GetMapping("/dashboard_admin")
     public String dashboardAdmin() {
@@ -59,3 +56,6 @@ public class LoginController {
         return "dashboard_empleado";
     }
 }
+
+
+

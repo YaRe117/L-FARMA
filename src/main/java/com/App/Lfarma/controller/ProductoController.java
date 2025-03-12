@@ -30,7 +30,7 @@ public class ProductoController {
     }
 
     @PostMapping("/guardar")
-    public String guardarProducto(@ModelAttribute("producto") Producto producto, Model model) {
+    public String guardarProducto(@ModelAttribute Producto producto, Model model) {
         try {
             productoService.guardarProducto(producto);
             return "redirect:/productos";
@@ -41,7 +41,7 @@ public class ProductoController {
     }
 
     @GetMapping("/actualizar-productos")
-    public String mostrarFormularioEditar(@RequestParam("codigoProducto") String codigoProducto, Model model) {
+    public String mostrarFormularioEditar(@RequestParam String codigoProducto, Model model) {
         Optional<Producto> producto = productoService.buscarPorCodigo(codigoProducto);
         if (producto.isPresent()) {
             model.addAttribute("producto", producto.get());
@@ -52,7 +52,7 @@ public class ProductoController {
     }
 
     @PostMapping("/actualizar")
-    public String actualizarProducto(@ModelAttribute("producto") Producto producto, Model model) {
+    public String actualizarProducto(@ModelAttribute Producto producto, Model model) {
         try {
             productoService.guardarProducto(producto);
             return "redirect:/productos";
@@ -69,7 +69,7 @@ public class ProductoController {
     }
 
     @PostMapping("/eliminar")
-    public String eliminarProducto(@RequestParam("codigoProducto") String codigoProducto, Model model) {
+    public String eliminarProducto(@RequestParam String codigoProducto, Model model) {
         Optional<Producto> producto = productoService.buscarPorCodigo(codigoProducto);
 
         if (producto.isPresent()) {
@@ -89,7 +89,7 @@ public class ProductoController {
     }
 
     @PostMapping("/buscar")
-    public String buscarProductoPorCodigo(@RequestParam("codigoProducto") String codigoProducto, Model model) {
+    public String buscarProductoPorCodigo(@RequestParam String codigoProducto, Model model) {
         Optional<Producto> producto = productoService.buscarPorCodigo(codigoProducto);
 
         if (producto.isPresent()) {

@@ -30,7 +30,7 @@ public class ClienteController {
     }
 
     @GetMapping("/editar/{codigo}")
-    public String mostrarFormularioEditar(@PathVariable("codigo") String codigo, Model model) {
+    public String mostrarFormularioEditar(@PathVariable String codigo, Model model) {
         Cliente cliente = clienteService.obtenerClientePorCodigo(codigo).orElse(null);
         model.addAttribute("cliente", cliente);
         return "editarCliente";
@@ -44,7 +44,7 @@ public class ClienteController {
 
     
     @PostMapping("/eliminar")
-    public String eliminarCliente(@RequestParam("codigo") String codigo) {
+    public String eliminarCliente(@RequestParam String codigo) {
         clienteService.eliminarCliente(codigo);
         return "redirect:/clientes";
     }
